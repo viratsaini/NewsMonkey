@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
-// import SpinNer from "./SpinNer";
+import SpinNer from "./SpinNer";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -32,6 +32,7 @@ export class News extends Component {
     this.setState({
       articles: parseddata.articles,
       totalResults: parseddata.totalResults,
+      loading:false
     });
   }
   fetchMoreData = async () => {
@@ -57,6 +58,7 @@ export class News extends Component {
     return (
       <>
         <h1 className="text-center my-3">NewsMonkey-Top Hadline</h1>
+        {this.state.loading &&<SpinNer/>}
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
