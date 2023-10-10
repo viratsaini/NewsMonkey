@@ -26,14 +26,18 @@ export class News extends Component {
   }
 
   async componentDidMount() {
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c22f947b2b124d39a98bf1ae3a7580d1&page=1&pageSize=${this.props.pagesize}`;
+    this.props.setProgress(10);
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=4f86532c3e8d4272ab8992d7e39fb3a5&page=1&pageSize=${this.props.pagesize}`;
     let data = await fetch(url);
+    this.props.setProgress(40);
     let parseddata = await data.json();
+    this.props.setProgress(60);
     this.setState({
       articles: parseddata.articles,
       totalResults: parseddata.totalResults,
       loading:false
     });
+    this.props.setProgress(100);
   }
   fetchMoreData = async () => {
     this.setState({ page: this.state.page + 1 });
@@ -41,7 +45,7 @@ export class News extends Component {
       this.props.country
     }&category=${
       this.props.category
-    }&apiKey=c22f947b2b124d39a98bf1ae3a7580d1&page=${
+    }&apiKey=4f86532c3e8d4272ab8992d7e39fb3a5&page=${
       this.state.page - 1
     }&pageSize=${this.props.pagesize}`;
     let data = await fetch(url);
@@ -51,9 +55,6 @@ export class News extends Component {
       articles: this.state.articles.concat(parseddata.articles),
     });
   };
-
-  
-
   render() {
     return (
       <>
@@ -63,7 +64,7 @@ export class News extends Component {
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
           hasMore={this.state.articles.length !== this.state.totalResults}
-          // loader={<p>Loading....</p>}
+          // loader={<SpinNer/>}
         ></InfiniteScroll>
         <div className="container">
           <div className="row">

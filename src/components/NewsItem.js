@@ -8,9 +8,12 @@ export class NewsItem extends Component {
     return (
       <div className="my-3">
         <div className="card" style={{ color:"white",background:"rgb(29, 29, 30)", border:"1px solid white"}}
-        ><span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{left:"90%",zIndex:"1"}}>
+        >
+          <div style={{display:"flex",position:"absolute",right:"-2px",top:"-6px"}}>
+            <span className=" top-0 badge rounded-pill bg-danger" >
        {source}
         </span>
+        </div>
           <img src={imageUrl?imageUrl:"https://static.toiimg.com/thumb/msid-102807302,width-1070,height-580,imgsize-583333,resizemode-75,overlay-toi_sw,pt-32,y_pad-40/photo.jpg"} className="card-img-top" alt="..." style={{borderRadius:"4px"}} />
           <div className="card-body">
             <h5 className="card-title">{title}...</h5>
