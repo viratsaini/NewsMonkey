@@ -35,7 +35,7 @@ export class News extends Component {
     this.setState({
       articles: parseddata.articles,
       totalResults: parseddata.totalResults,
-      loading:false
+      loading: false,
     });
     this.props.setProgress(100);
   }
@@ -48,47 +48,50 @@ export class News extends Component {
     }&apiKey=4f86532c3e8d4272ab8992d7e39fb3a5&page=${
       this.state.page - 1
     }&pageSize=${this.props.pagesize}`;
+    this.setState({ loading: true });
     let data = await fetch(url);
     let parseddata = await data.json();
     this.setState({
       totalResults: parseddata.totalResults,
       articles: this.state.articles.concat(parseddata.articles),
+      loading: false,
     });
   };
   render() {
     return (
       <>
         <h1 className="text-center my-3">NewsMonkey-Top Hadline</h1>
-        {this.state.loading &&<SpinNer/>}
+        {this.state.loading && <SpinNer />}
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
-          hasMore={this.state.articles.length !== this.state.totalResults}
-          // loader={<SpinNer/>}
-        ></InfiniteScroll>
-        <div className="container">
-          <div className="row">
-            {this.state.articles.map((element) => {
-              return (
-                <div className="col-md-4" key={element.url}>
-                  <NewsItem
-                    title={element.title ? element.title.slice(0, 45) : ""}
-                    description={
-                      element.description
-                        ? element.description.slice(0, 85)
-                        : ""
-                    }
-                    imageUrl={element.urlToImage}
-                    newsUrl={element.url}
-                    author={element.author}
-                    date={element.publishedAt}
-                    source={element.source.name}
-                  />
-                </div>
-              );
-            })}
+          hasMore={this.state.articles.length != this.state.totalResults}
+          loader={this.state.loading && <SpinNer />}
+        >
+          <div className="container">
+            <div className="row">
+              {this.state.articles.map((element) => {
+                return (
+                  <div className="col-md-4" key={element.url}>
+                    <NewsItem
+                      title={element.title ? element.title.slice(0, 45) : ""}
+                      description={
+                        element.description
+                          ? element.description.slice(0, 85)
+                          : ""
+                      }
+                      imageUrl={element.urlToImage}
+                      newsUrl={element.url}
+                      author={element.author}
+                      date={element.publishedAt}
+                      source={element.source.name}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </InfiniteScroll>
       </>
     );
   }
