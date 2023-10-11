@@ -47,7 +47,6 @@ export class News extends Component {
       this.state.page+1
     }
       &pageSize=${this.props.pagesize}`;
-    
     let data = await fetch(url);
     let parseddata = await data.json();
     this.setState({
@@ -65,7 +64,7 @@ export class News extends Component {
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
           hasMore={this.state.articles.length !== this.state.totalResults}
-          loader={this.state.loading && <SpinNer />}
+          loader={!this.state.loading && <SpinNer />}
         >
           <div className="container">
             <div className="row">
