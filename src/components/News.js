@@ -6,21 +6,22 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = (props) => {
   const [articles, setarticlest] = useState([]);
-  const [loading, setaloading] = useState(true);
+  const [loading, setloading] = useState(true);
   const [page, setpage] = useState(1);
   const [totalResults, settotalResults] = useState(0);
 
   const componentDidMount = async () => {
     props.setProgress(10);
+    
     let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=1&pageSize=${props.pagesize}`;
+    setloading(true);
     let data = await fetch(url);
     props.setProgress(40);
     let parseddata = await data.json();
     props.setProgress(60);
     setarticlest(parseddata.articles);
-    setaloading(false);
+    setloading(false);
     settotalResults(parseddata.totalResults);
-
     props.setProgress(100);
   };
   useEffect(() => {
@@ -36,7 +37,7 @@ const News = (props) => {
     let data = await fetch(url);
     let parseddata = await data.json();
     setarticlest(articles.concat(parseddata.articles));
-    setaloading(false);
+    // setloading(false);
     settotalResults(parseddata.totalResults);
   };
 
@@ -45,12 +46,13 @@ const News = (props) => {
       <h1 className="text-center" style={{ marginTop: "80px" }}>
         NewsMonkey-Top {props.category} Headlines
       </h1>
+
       {loading && <SpinNer />}
       <InfiniteScroll
         dataLength={articles.length}
         next={fetchMoreData}
         hasMore={articles.length !== totalResults}
-        loader={!loading && <SpinNer />}
+        loader={<SpinNer />}
       >
         <div className="container">
           <div className="row">
